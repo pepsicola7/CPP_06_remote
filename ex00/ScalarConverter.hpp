@@ -6,7 +6,7 @@
 /*   By: peli <peli@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/09 16:38:25 by peli              #+#    #+#             */
-/*   Updated: 2025/06/09 16:41:02 by peli             ###   ########.fr       */
+/*   Updated: 2025/06/09 18:26:39 by peli             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,7 +17,7 @@ private:
 public:
     ScalarConverter(/* args */);
     ~ScalarConverter();
-    static convert();
+    static void convert();
 };
 
 ScalarConverter::ScalarConverter(/* args */)
