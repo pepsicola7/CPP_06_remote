@@ -1,5 +1,5 @@
 # nom de l'excutable
-TARGET = ./a.out
+TARGET = ./convert
 
 #Compilateur
 CXX = c++
