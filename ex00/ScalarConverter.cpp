@@ -6,23 +6,13 @@
 /*   By: peli <peli@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/09 16:38:22 by peli              #+#    #+#             */
-/*   Updated: 2025/06/11 18:40:52 by peli             ###   ########.fr       */
+/*   Updated: 2025/06/12 14:29:00 by peli             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "ScalarConverter.hpp"
 
-ScalarConverter::ScalarConverter()
-{
-    
-}
-
-ScalarConverter::~ScalarConverter()
-{
-    
-}
-
-void ScalarConverter::convert(std::string& input)
+void ScalarConverter::convert(std::string const& input)
 {
     bool    special = false;
     char*   end;
@@ -44,74 +34,57 @@ void ScalarConverter::convert(std::string& input)
         valeur = -std::numeric_limits<double>::infinity();
     }
 
-    valeur = std::strtod(input.c_str(), &end);
-    if ((input[0] >= 'A' && input[0] <= 'Z') || (input[0] >= 'a' && input[0] <= 'z'))
+    if (special == true)
     {
-        if (input.length() > 1)
-        {
-            std::cerr << "char: Non displayable" << std::endl;
-        }
-        else
-        {
-            char c = input[0];
-            std::cout << "char: '" << c << "'" << std::endl;
-            std::cout << "int: " << static_cast<int>(c) << std::endl;
-            std::cout << "float: " << static_cast<float>(c) << "f" << std::endl;
-            std::cout << "double: " << static_cast<double>(c) << std::endl;
-            return;
-        }
+        std::cout << "char: impossible" << std::endl;
+        std::cout << "int: impossible" << std::endl;
+        std::cout << "float: " << static_cast<float>(valeur) << "f" << std::endl;
+        std::cout << "double: " << static_cast<double>(valeur) << std::endl;
+        return ;
     }
+    
+    if (input.length() == 1 && !std::isdigit(input[0]))
+    {
+        char c = input[0];
+        std::cout << "char: '" << c << "'" << std::endl;
+        std::cout << "int: " << static_cast<int>(c) << std::endl;
+        std::cout << "float: " << static_cast<float>(c) << ".0f" << std::endl;
+        std::cout << "double: " << static_cast<double>(c) << ".0" << std::endl;
+        return;
+    }
+    valeur = std::strtod(input.c_str(), &end);
     if (*end != '\0' && (end != input.c_str() + std::strlen(input.c_str()) - 1) && *end != 'f')
     {
         std::cerr << "Conversion failed: invalid input" << std::endl;
         return ;
     }
+    // Affichage char
     char c = static_cast<char>(valeur);
+    std::cout << "char: ";
+    if (valeur < 0 || valeur > 127)
+        std::cout << "impossible" << std::endl;
     if (valeur < 32 || valeur > 126)
-        std::cout << "char: Non displayable" << std::endl;
+        std::cout << "Non displayable" << std::endl;
     else
-        std::cout << "char: " << c << std::endl;
-    std::cout << "int: " << static_cast<int>(valeur) << std::endl; 
-    std::cout << "float: " << static_cast<float>(valeur) << "f" << std::endl;
-    std::cout << "double: " << static_cast<double>(valeur) << std::endl;
+        std::cout << "'" << c << "'" << std::endl;
+    
+    // Affichage de int
+    std::cout << "int: ";
+    if ('c' < INT_MIN || valeur > static_cast<double>(INT_MAX))
+        std::cout << "impossible" << std::endl;
+    else
+        std::cout << static_cast<int>(valeur) << std::endl;
+    
+    // Affichage de float
+    float f = static_cast<float>(valeur);
+    std::cout << "float: " << f;
+    if (f == static_cast<int>(f))
+        std::cout << ".0";
+    std::cout << "f" << std::endl;
+
+    // Affichage de double
+    std::cout << "double: " << valeur;
+    if (valeur == static_cast<int>(valeur))
+        std::cout << ".0";
+    std::cout << std::endl;
 };
-
-
-// int i = 0;
-// size_t len = std::strlen(input.c_str());
-// while (input[i] && ((input[i] >= '0' && input[i] <= '9') || input[i] == '.' || input[i] == 'f'))
-// {
-//     if (input[i] == '.' || input[i] == 'f')
-//     {
-//         if (input[i] == '.')
-//         {
-//             i++;
-//             while (input[i] && (input[i] >= '0' && input[i] <= '9'))
-//             {
-//                 i++;
-//             }
-//             if (i == len - 1)
-//             {
-//                 std::cout << "int: " << static_cast<int>(input[i]) << std::endl;
-//                 std::cout << "float: " << static_cast<float>(input[i]) << std::endl;
-//                 std::cout << "double: " << static_cast<double>(input[i]) << std::endl;
-//                 return ;
-//             }
-//             if ((i == len - 2) && (input[i] == 'f'))
-//             {
-//                 std::cout << "int: " << static_cast<int>(input[i]) << std::endl;
-//                 std::cout << "float: " << static_cast<float>(input[i]) << std::endl;
-//                 std::cout << "double: " << static_cast<double>(input[i]) << std::endl;
-//                 return ;
-//             }
-//         }
-//     }
-//     i++;
-// }
-// if (i = len - 1)
-// {
-//     std::cout << "int: " << static_cast<int>(input[i]) << std::endl;
-//     std::cout << "float: " << static_cast<float>(input[i]) << std::endl;
-//     std::cout << "double: " << static_cast<double>(input[i]) << std::endl;
-//     return ;
-// }
